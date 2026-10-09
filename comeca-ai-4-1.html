@@ -1,0 +1,1272 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="theme-color" content="#0f766e">
+  <meta name="description" content="App gratuito para Jovem Aprendiz e primeiro emprego: vagas reais, currículo, entrevistas e cursos grátis.">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="Começa Aí">
+  <title>Começa Aí — Jovem Aprendiz</title>
+  <!-- -->
+  <link rel="icon" href="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" type="image/png">
+  <link rel="apple-touch-icon" href="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #0f766e;
+      --primary-dark: #0d5c56;
+      --primary-light: #14b8a6;
+      --bg: #f0fdfa;
+      --card: #ffffff;
+      --text: #134e4a;
+      --muted: #64748b;
+      --danger: #dc2626;
+      --success: #16a34a;
+      --shadow: 0 4px 20px rgba(15, 118, 110, 0.10);
+      --radius: 16px;
+      --safe-bottom: env(safe-area-inset-bottom, 0px);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+      min-height: 100dvh;
+      padding-bottom: calc(72px + var(--safe-bottom));
+      -webkit-font-smoothing: antialiased;
+    }
+    header {
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: white;
+      padding: 1rem 1rem 1.15rem;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: var(--shadow);
+    }
+    header h1 {
+      font-size: 1.25rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+    }
+    header p { font-size: 0.8rem; opacity: 0.9; margin-top: 0.15rem; }
+    nav {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: white;
+      display: flex;
+      justify-content: space-around;
+      padding: 0.4rem 0 calc(0.4rem + var(--safe-bottom));
+      box-shadow: 0 -4px 20px rgba(0,0,0,0.07);
+      z-index: 100;
+    }
+    nav button {
+      background: none;
+      border: none;
+      font-size: 0.65rem;
+      color: #64748b;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.15rem;
+      padding: 0.35rem 0.45rem;
+      cursor: pointer;
+      font-weight: 500;
+      transition: color 0.2s;
+      min-width: 56px;
+    }
+    nav button.active { color: var(--primary); }
+    nav button span.icon { font-size: 1.3rem; }
+    main { padding: 0.85rem; max-width: 640px; margin: 0 auto; }
+    .page { display: none; animation: fadeIn 0.28s ease; }
+    .page.active { display: block; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+    .card {
+      background: var(--card);
+      border-radius: var(--radius);
+      padding: 1.1rem;
+      margin-bottom: 0.85rem;
+      box-shadow: var(--shadow);
+    }
+    .card h2 { font-size: 1.05rem; margin-bottom: 0.6rem; color: var(--primary-dark); }
+    .card h3 { font-size: 0.95rem; margin: 0.85rem 0 0.4rem; color: var(--primary); }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.35rem;
+      background: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 12px;
+      padding: 0.7rem 1.1rem;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background 0.2s, transform 0.15s;
+      width: 100%;
+      margin-top: 0.6rem;
+    }
+    .btn:hover, .btn:active { background: var(--primary-dark); transform: scale(0.98); }
+    .btn-outline {
+      background: transparent;
+      color: var(--primary);
+      border: 2px solid var(--primary);
+    }
+    .btn-outline:hover { background: var(--primary); color: white; }
+    .btn-sm { padding: 0.45rem 0.85rem; font-size: 0.8rem; width: auto; margin-top: 0.4rem; }
+    .link-list { list-style: none; }
+    .link-list li {
+      margin-bottom: 0.6rem;
+      background: #f0fdfa;
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    .link-list a {
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+      padding: 0.85rem;
+      text-decoration: none;
+      color: var(--text);
+      font-weight: 500;
+    }
+    .link-list a:hover { background: #ccfbf1; }
+    .link-list .badge {
+      background: var(--primary);
+      color: white;
+      font-size: 0.65rem;
+      padding: 0.12rem 0.45rem;
+      border-radius: 999px;
+      margin-left: auto;
+      white-space: nowrap;
+    }
+    label { display: block; font-size: 0.8rem; font-weight: 500; margin-bottom: 0.25rem; margin-top: 0.65rem; }
+    input, select, textarea {
+      width: 100%;
+      padding: 0.65rem 0.8rem;
+      border: 1.5px solid #99f6e4;
+      border-radius: 10px;
+      font-size: 0.9rem;
+      font-family: inherit;
+      background: #f0fdfa;
+      color: var(--text);
+    }
+    input:focus, select:focus, textarea:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(15, 118, 110, 0.15);
+    }
+    textarea { min-height: 72px; resize: vertical; }
+    .preview {
+      background: #f8fafc;
+      border: 1px dashed #94a3b8;
+      border-radius: 12px;
+      padding: 0.9rem;
+      font-size: 0.85rem;
+      white-space: pre-wrap;
+      margin-top: 0.85rem;
+      max-height: 380px;
+      overflow-y: auto;
+    }
+    .tips {
+      background: #ecfdf5;
+      border-left: 4px solid var(--primary);
+      padding: 0.75rem 0.9rem;
+      border-radius: 0 12px 12px 0;
+      margin: 0.6rem 0;
+      font-size: 0.85rem;
+    }
+    .question-card {
+      background: #f0fdfa;
+      border-radius: 12px;
+      padding: 0.85rem;
+      margin-bottom: 0.6rem;
+      border: 1px solid #99f6e4;
+    }
+    .question-card strong { color: var(--primary-dark); }
+    .chat {
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+      max-height: 340px;
+      overflow-y: auto;
+      padding: 0.4rem;
+    }
+    .bubble {
+      max-width: 85%;
+      padding: 0.65rem 0.9rem;
+      border-radius: 16px;
+      font-size: 0.85rem;
+      line-height: 1.4;
+    }
+    .bubble.ai { background: #ccfbf1; align-self: flex-start; border-bottom-left-radius: 4px; }
+    .bubble.user { background: var(--primary); color: white; align-self: flex-end; border-bottom-right-radius: 4px; }
+    .feedback { background: #fef3c7; border-radius: 12px; padding: 0.8rem; margin-top: 0.6rem; font-size: 0.85rem; }
+    .feedback.good { background: #dcfce7; }
+    .course-grid { display: grid; gap: 0.65rem; }
+    .course-item {
+      background: #f0fdfa;
+      border-radius: 12px;
+      padding: 0.9rem;
+      border: 1px solid #99f6e4;
+    }
+    .course-item h4 { font-size: 0.9rem; margin-bottom: 0.25rem; }
+    .course-item p { font-size: 0.78rem; color: var(--muted); margin-bottom: 0.4rem; }
+    .tag {
+      display: inline-block;
+      background: var(--primary);
+      color: white;
+      font-size: 0.62rem;
+      padding: 0.12rem 0.4rem;
+      border-radius: 6px;
+      margin-right: 0.25rem;
+    }
+    .hero { text-align: center; padding: 0.75rem 0.25rem 0.5rem; }
+    .hero .emoji { font-size: 2.4rem; margin-bottom: 0.3rem; }
+    .hero h2 { font-size: 1.25rem; margin-bottom: 0.35rem; }
+    .hero p { color: var(--muted); font-size: 0.88rem; margin-bottom: 1rem; }
+    .quick-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem; }
+    .quick-btn {
+      background: white;
+      border: 2px solid #99f6e4;
+      border-radius: 14px;
+      padding: 0.85rem 0.6rem;
+      text-align: center;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 0.8rem;
+      color: var(--text);
+      transition: all 0.2s;
+    }
+    .quick-btn:hover { border-color: var(--primary); background: #f0fdfa; }
+    .quick-btn span { display: block; font-size: 1.45rem; margin-bottom: 0.2rem; }
+    .step { display: flex; gap: 0.65rem; margin-bottom: 0.75rem; align-items: flex-start; }
+    .step-num {
+      background: var(--primary);
+      color: white;
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 0.8rem;
+      flex-shrink: 0;
+    }
+    .hidden { display: none !important; }
+    .progress { height: 6px; background: #ccfbf1; border-radius: 99px; margin: 0.85rem 0; overflow: hidden; }
+    .progress-bar { height: 100%; background: var(--primary); border-radius: 99px; transition: width 0.3s; }
+    .comeca-ai-cover {
+      width: min(100%, 380px);
+      margin: 0 auto 12px;
+      text-align: center;
+    }
+    .comeca-ai-cover img {
+      display: block;
+      width: 100%;
+      height: auto;
+      max-height: 180px;
+      object-fit: cover;
+      border-radius: 18px;
+      box-shadow: 0 10px 28px rgba(2,20,50,.14);
+    }
+    @media (min-width: 480px) {
+      .comeca-ai-cover img { max-height: 240px; }
+    }
+    .install-banner {
+      display: none;
+      align-items: center;
+      gap: 10px;
+      padding: 12px;
+      margin: 0 0 12px;
+      border: 1px solid #99f6e4;
+      border-radius: 16px;
+      background: linear-gradient(135deg, #f0fdfa, #ecfdf5);
+      color: #134e4a;
+      box-shadow: 0 6px 18px rgba(15,118,110,.08);
+    }
+    .install-banner.visible { display: flex; }
+    .install-icon {
+      width: 40px; height: 40px; flex: 0 0 40px;
+      display: grid; place-items: center;
+      border-radius: 12px; background: #0f766e; color: white; font-size: 18px;
+    }
+    .install-copy { font-size: 11px; line-height: 1.35; margin-top: 2px; color: #475569; }
+    .install-banner button {
+      border: 0; border-radius: 10px; padding: 8px 12px;
+      background: #0f766e; color: white; font-weight: 700; cursor: pointer; font-size: 0.8rem;
+    }
+    .install-banner .install-dismiss { background: transparent; color: #64748b; padding: 4px; }
+    .job-card {
+      background: #f0fdfa;
+      border: 1px solid #99f6e4;
+      border-radius: 14px;
+      padding: 0.95rem;
+      margin-bottom: 0.7rem;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .job-card:hover { border-color: var(--primary); box-shadow: 0 4px 14px rgba(15,118,110,.12); }
+    .job-card .job-title {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--primary-dark);
+      margin-bottom: 0.25rem;
+      line-height: 1.3;
+    }
+    .job-card .job-company {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 0.35rem;
+    }
+    .job-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.35rem;
+      margin-bottom: 0.5rem;
+    }
+    .job-meta span {
+      font-size: 0.68rem;
+      background: white;
+      border: 1px solid #99f6e4;
+      color: var(--muted);
+      padding: 0.15rem 0.45rem;
+      border-radius: 999px;
+    }
+    .job-meta span.highlight {
+      background: #ccfbf1;
+      color: var(--primary-dark);
+      border-color: #5eead4;
+      font-weight: 600;
+    }
+    .job-desc {
+      font-size: 0.8rem;
+      color: var(--muted);
+      margin-bottom: 0.55rem;
+      line-height: 1.4;
+    }
+    .job-actions { display: flex; gap: 0.45rem; flex-wrap: wrap; }
+    .updated-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      font-size: 0.7rem;
+      color: var(--muted);
+      background: #f1f5f9;
+      padding: 0.25rem 0.55rem;
+      border-radius: 999px;
+      margin-bottom: 0.75rem;
+    }
+    .filter-row {
+      display: flex;
+      gap: 0.45rem;
+      flex-wrap: wrap;
+      margin-bottom: 0.85rem;
+    }
+    .filter-chip {
+      border: 1.5px solid #99f6e4;
+      background: white;
+      color: var(--text);
+      border-radius: 999px;
+      padding: 0.35rem 0.7rem;
+      font-size: 0.75rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .filter-chip.active, .filter-chip:hover {
+      background: var(--primary);
+      color: white;
+      border-color: var(--primary);
+    }
+    .alert-info {
+      background: #eff6ff;
+      border-left: 4px solid #3b82f6;
+      padding: 0.7rem 0.85rem;
+      border-radius: 0 12px 12px 0;
+      font-size: 0.8rem;
+      color: #1e3a5f;
+      margin-bottom: 0.85rem;
+    }
+
+    .captcha-box {
+      background: #f0fdfa;
+      border: 1.5px solid #99f6e4;
+      border-radius: 12px;
+      padding: 0.85rem;
+      margin: 0.75rem 0;
+    }
+    .captcha-box label { margin-top: 0; }
+    .captcha-q {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: #0d5c56;
+      margin-bottom: 0.5rem;
+    }
+    .captcha-options {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+    .captcha-options label {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.85rem;
+      font-weight: 500;
+      padding: 0.45rem 0.6rem;
+      background: white;
+      border-radius: 8px;
+      border: 1px solid #ccfbf1;
+      cursor: pointer;
+      margin: 0;
+    }
+    .captcha-options input { width: 16px; height: 16px; accent-color: #0f766e; }
+
+    .city-btn {
+      border: 1.5px solid #99f6e4;
+      background: #fff;
+      color: #134e4a;
+      border-radius: 999px;
+      padding: 8px 12px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: inherit;
+    }
+    .city-btn.selected {
+      background: #0f766e;
+      color: #fff;
+      border-color: #0f766e;
+    }
+    .city-select {
+      width: 100%;
+      padding: 0.65rem 0.8rem;
+      border: 1.5px solid #99f6e4;
+      border-radius: 10px;
+      font-size: 0.9rem;
+      font-family: inherit;
+      background: #f0fdfa;
+      color: #134e4a;
+      margin-bottom: 0.5rem;
+    }
+    @media (display-mode: standalone) {
+      body { padding-top: max(6px, env(safe-area-inset-top)); }
+    }
+
+    /* Eligibility gate */
+    .gate-overlay {
+      position: fixed; inset: 0; z-index: 9999;
+      background: linear-gradient(160deg, #0f766e 0%, #0d5c56 50%, #134e4a 100%);
+      color: white; display: flex; align-items: center; justify-content: center;
+      padding: 1.25rem; overflow-y: auto;
+    }
+    .gate-box {
+      background: white; color: #134e4a; border-radius: 20px;
+      padding: 1.35rem 1.2rem; max-width: 400px; width: 100%;
+      box-shadow: 0 20px 50px rgba(0,0,0,.25);
+    }
+    .gate-box h2 { font-size: 1.15rem; margin-bottom: 0.35rem; color: #0d5c56; }
+    .gate-box .sub { font-size: 0.82rem; color: #64748b; margin-bottom: 1rem; }
+    .gate-check {
+      display: flex; align-items: flex-start; gap: 0.55rem;
+      margin-bottom: 0.65rem; font-size: 0.85rem; line-height: 1.35;
+    }
+    .gate-check input { margin-top: 0.2rem; width: 18px; height: 18px; accent-color: #0f766e; flex-shrink: 0; }
+    .gate-age-row { display: flex; gap: 0.5rem; margin: 0.75rem 0; }
+    .gate-age-row input { flex: 1; }
+    .verified-badge {
+      display: inline-flex; align-items: center; gap: 0.25rem;
+      background: #dcfce7; color: #166534; border: 1px solid #86efac;
+      font-size: 0.65rem; font-weight: 700; padding: 0.18rem 0.5rem;
+      border-radius: 999px; margin-left: 0.35rem; vertical-align: middle;
+    }
+    .source-line {
+      font-size: 0.7rem; color: #64748b; margin-top: 0.35rem;
+    }
+    .source-line a { color: #0f766e; font-weight: 600; }
+    .job-card .verified-row {
+      display: flex; flex-wrap: wrap; align-items: center; gap: 0.35rem;
+      margin-bottom: 0.4rem;
+    }
+  </style>
+<script>function entrarApp(){
+  var err=document.getElementById('gateErr');
+  if(err){err.style.display='none';err.textContent='';}
+  function show(m){if(err){err.style.display='block';err.textContent=m;}else{alert(m);}}
+  var age=parseInt((document.getElementById('gateAge')||{}).value,10);
+  var city=(document.getElementById('gateCity')||{}).value||'';
+  var school=document.getElementById('gateSchool');
+  var free=document.getElementById('gateFree');
+  var cap=((document.getElementById('gateCaptcha')||{}).value||'').trim();
+  if(!age||age<14||age>24){show('Digite idade entre 14 e 24.');return;}
+  if(!city){show('Escolha a cidade.');return;}
+  if(!school||!school.checked||!free||!free.checked){show('Marque as duas caixinhas.');return;}
+  if(cap!=='7'){show('Anti-robo: digite 7 (3+4=7).');return;}
+  try{localStorage.setItem('comecaai_verified','1');localStorage.setItem('comecaai_city',city);}catch(e){}
+  var gate=document.getElementById('eligibilityGate');
+  if(gate){gate.style.display='none';gate.setAttribute('hidden','hidden');gate.innerHTML='';}
+  var cv=document.getElementById('cv-cidade');
+  if(cv&&!cv.value)cv.value=city;
+  try{if(typeof filterJobs==='function'){if(city.indexOf('SP')>=0)filterJobs('sp');else if(city.indexOf('RJ')>=0)filterJobs('rj');else if(city.indexOf('MG')>=0)filterJobs('mg');}}catch(e){}
+  window.scrollTo(0,0);
+}</script>
+</head>
+<body>
+
+  <div id="eligibilityGate" style="display:flex;position:fixed;left:0;top:0;right:0;bottom:0;z-index:99999;background:#0f766e;align-items:flex-start;justify-content:center;padding:20px 12px;overflow-y:auto;-webkit-overflow-scrolling:touch;">
+<div style="background:#fff;border-radius:16px;padding:18px 14px;width:100%;max-width:380px;margin:auto;">
+  <h2 style="margin:0 0 4px;font-size:18px;color:#0d5c56;">Verificacao</h2>
+  <p style="margin:0 0 12px;font-size:13px;color:#64748b;">Preencha para entrar no Começa Aí.</p>
+
+  <label style="font-size:13px;font-weight:600;display:block;margin-bottom:4px;">Idade (14-24)</label>
+  <input id="gateAge" type="number" min="14" max="24" placeholder="17" inputmode="numeric"
+    style="width:100%;padding:12px;font-size:16px;border:2px solid #99f6e4;border-radius:10px;margin-bottom:10px;box-sizing:border-box;">
+
+  <label style="font-size:13px;font-weight:600;display:block;margin-bottom:4px;">Cidade (A-Z)</label>
+  <select id="gateCity" style="width:100%;padding:12px;font-size:16px;border:2px solid #99f6e4;border-radius:10px;margin-bottom:10px;background:#fff;box-sizing:border-box;">
+    <option value="">Escolha a cidade</option>
+    <option value="Americana - SP">Americana - SP</option>
+<option value="Ananindeua - PA">Ananindeua - PA</option>
+<option value="Anapolis - GO">Anapolis - GO</option>
+<option value="Aparecida de Goiania - GO">Aparecida de Goiania - GO</option>
+<option value="Aracaju - SE">Aracaju - SE</option>
+<option value="Arapiraca - AL">Arapiraca - AL</option>
+<option value="Araraquara - SP">Araraquara - SP</option>
+<option value="Barueri - SP">Barueri - SP</option>
+<option value="Bauru - SP">Bauru - SP</option>
+<option value="Belem - PA">Belem - PA</option>
+<option value="Belford Roxo - RJ">Belford Roxo - RJ</option>
+<option value="Belo Horizonte - MG">Belo Horizonte - MG</option>
+<option value="Blumenau - SC">Blumenau - SC</option>
+<option value="Boa Vista - RR">Boa Vista - RR</option>
+<option value="Brasilia - DF">Brasilia - DF</option>
+<option value="Camacari - BA">Camacari - BA</option>
+<option value="Campina Grande - PB">Campina Grande - PB</option>
+<option value="Campinas - SP">Campinas - SP</option>
+<option value="Campo Grande - MS">Campo Grande - MS</option>
+<option value="Campos dos Goytacazes - RJ">Campos dos Goytacazes - RJ</option>
+<option value="Canoas - RS">Canoas - RS</option>
+<option value="Carapicuiba - SP">Carapicuiba - SP</option>
+<option value="Cariacica - ES">Cariacica - ES</option>
+<option value="Caruaru - PE">Caruaru - PE</option>
+<option value="Cascavel - PR">Cascavel - PR</option>
+<option value="Caucaia - CE">Caucaia - CE</option>
+<option value="Caxias do Sul - RS">Caxias do Sul - RS</option>
+<option value="Contagem - MG">Contagem - MG</option>
+<option value="Cuiaba - MT">Cuiaba - MT</option>
+<option value="Curitiba - PR">Curitiba - PR</option>
+<option value="Diadema - SP">Diadema - SP</option>
+<option value="Duque de Caxias - RJ">Duque de Caxias - RJ</option>
+<option value="Feira de Santana - BA">Feira de Santana - BA</option>
+<option value="Florianopolis - SC">Florianopolis - SC</option>
+<option value="Fortaleza - CE">Fortaleza - CE</option>
+<option value="Foz do Iguacu - PR">Foz do Iguacu - PR</option>
+<option value="Franca - SP">Franca - SP</option>
+<option value="Goiania - GO">Goiania - GO</option>
+<option value="Governador Valadares - MG">Governador Valadares - MG</option>
+<option value="Gravatai - RS">Gravatai - RS</option>
+<option value="Guaruja - SP">Guaruja - SP</option>
+<option value="Guarulhos - SP">Guarulhos - SP</option>
+<option value="Itaquaquecetuba - SP">Itaquaquecetuba - SP</option>
+<option value="Jaboatao dos Guararapes - PE">Jaboatao dos Guararapes - PE</option>
+<option value="Joao Pessoa - PB">Joao Pessoa - PB</option>
+<option value="Joinville - SC">Joinville - SC</option>
+<option value="Juazeiro do Norte - CE">Juazeiro do Norte - CE</option>
+<option value="Juiz de Fora - MG">Juiz de Fora - MG</option>
+<option value="Jundiai - SP">Jundiai - SP</option>
+<option value="Limeira - SP">Limeira - SP</option>
+<option value="Londrina - PR">Londrina - PR</option>
+<option value="Macapa - AP">Macapa - AP</option>
+<option value="Maceio - AL">Maceio - AL</option>
+<option value="Manaus - AM">Manaus - AM</option>
+<option value="Maraba - PA">Maraba - PA</option>
+<option value="Marilia - SP">Marilia - SP</option>
+<option value="Maringa - PR">Maringa - PR</option>
+<option value="Maua - SP">Maua - SP</option>
+<option value="Mogi das Cruzes - SP">Mogi das Cruzes - SP</option>
+<option value="Montes Claros - MG">Montes Claros - MG</option>
+<option value="Mossoro - RN">Mossoro - RN</option>
+<option value="Natal - RN">Natal - RN</option>
+<option value="Niteroi - RJ">Niteroi - RJ</option>
+<option value="Nova Iguacu - RJ">Nova Iguacu - RJ</option>
+<option value="Novo Hamburgo - RS">Novo Hamburgo - RS</option>
+<option value="Olinda - PE">Olinda - PE</option>
+<option value="Osasco - SP">Osasco - SP</option>
+<option value="Outra cidade - Brasil">Outra cidade - Brasil</option>
+<option value="Palmas - TO">Palmas - TO</option>
+<option value="Paulista - PE">Paulista - PE</option>
+<option value="Pelotas - RS">Pelotas - RS</option>
+<option value="Petropolis - RJ">Petropolis - RJ</option>
+<option value="Piracicaba - SP">Piracicaba - SP</option>
+<option value="Ponta Grossa - PR">Ponta Grossa - PR</option>
+<option value="Porto Alegre - RS">Porto Alegre - RS</option>
+<option value="Porto Velho - RO">Porto Velho - RO</option>
+<option value="Praia Grande - SP">Praia Grande - SP</option>
+<option value="Presidente Prudente - SP">Presidente Prudente - SP</option>
+<option value="Recife - PE">Recife - PE</option>
+<option value="Ribeirao Preto - SP">Ribeirao Preto - SP</option>
+<option value="Rio Branco - AC">Rio Branco - AC</option>
+<option value="Rio de Janeiro - RJ">Rio de Janeiro - RJ</option>
+<option value="Salvador - BA">Salvador - BA</option>
+<option value="Santa Maria - RS">Santa Maria - RS</option>
+<option value="Santarem - PA">Santarem - PA</option>
+<option value="Santo Andre - SP">Santo Andre - SP</option>
+<option value="Santos - SP">Santos - SP</option>
+<option value="Sao Bernardo do Campo - SP">Sao Bernardo do Campo - SP</option>
+<option value="Sao Carlos - SP">Sao Carlos - SP</option>
+<option value="Sao Goncalo - RJ">Sao Goncalo - RJ</option>
+<option value="Sao Joao de Meriti - RJ">Sao Joao de Meriti - RJ</option>
+<option value="Sao Jose do Rio Preto - SP">Sao Jose do Rio Preto - SP</option>
+<option value="Sao Jose dos Campos - SP">Sao Jose dos Campos - SP</option>
+<option value="Sao Luis - MA">Sao Luis - MA</option>
+<option value="Sao Paulo - SP">Sao Paulo - SP</option>
+<option value="Sao Vicente - SP">Sao Vicente - SP</option>
+<option value="Serra - ES">Serra - ES</option>
+<option value="Sete Lagoas - MG">Sete Lagoas - MG</option>
+<option value="Sorocaba - SP">Sorocaba - SP</option>
+<option value="Sumare - SP">Sumare - SP</option>
+<option value="Suzano - SP">Suzano - SP</option>
+<option value="Taboao da Serra - SP">Taboao da Serra - SP</option>
+<option value="Taubate - SP">Taubate - SP</option>
+<option value="Teresina - PI">Teresina - PI</option>
+<option value="Uberaba - MG">Uberaba - MG</option>
+<option value="Uberlandia - MG">Uberlandia - MG</option>
+<option value="Varzea Grande - MT">Varzea Grande - MT</option>
+<option value="Vila Velha - ES">Vila Velha - ES</option>
+<option value="Vitoria - ES">Vitoria - ES</option>
+<option value="Vitoria da Conquista - BA">Vitoria da Conquista - BA</option>
+<option value="Volta Redonda - RJ">Volta Redonda - RJ</option>
+  </select>
+
+  <label style="display:block;font-size:13px;margin-bottom:8px;">
+    <input id="gateSchool" type="checkbox" style="width:18px;height:18px;vertical-align:middle;">
+    Estou na escola ou ja terminei
+  </label>
+  <label style="display:block;font-size:13px;margin-bottom:12px;">
+    <input id="gateFree" type="checkbox" style="width:18px;height:18px;vertical-align:middle;">
+    Candidatura e gratuita (nao pago)
+  </label>
+
+  <div style="background:#ecfdf5;border:2px solid #99f6e4;border-radius:12px;padding:12px;margin-bottom:12px;">
+    <p style="margin:0 0 8px;font-size:14px;font-weight:700;color:#0d5c56;">Anti-robo: quanto e 3 + 4?</p>
+    <p style="margin:0 0 6px;font-size:12px;color:#64748b;">Digite o resultado no campo abaixo:</p>
+    <input id="gateCaptcha" type="number" inputmode="numeric" placeholder="Digite o numero" autocomplete="off"
+      style="width:100%;padding:12px;font-size:18px;border:2px solid #0f766e;border-radius:10px;box-sizing:border-box;text-align:center;">
+  </div>
+
+  <p id="gateErr" style="display:none;color:#dc2626;font-size:13px;margin:0 0 8px;"></p>
+
+  <button id="gateSubmit" type="button" onclick="entrarApp()" style="width:100%;padding:14px;background:#0f766e;color:#fff;border:none;border-radius:12px;font-size:16px;font-weight:700;">Continuar</button>
+</div>
+</div>
+
+<div class="install-banner" id="installBanner" role="region" aria-label="Instalar aplicativo">
+    <div class="install-icon" aria-hidden="true">↗</div>
+    <div style="flex:1;min-width:0">
+      <strong style="font-size:0.85rem">Instalar aplicativo</strong>
+      <div class="install-copy">Adicione o Começa Aí à tela inicial do celular.</div>
+    </div>
+    <button id="installBtn" type="button">Instalar</button>
+    <button id="installDismiss" class="install-dismiss" type="button" aria-label="Fechar">✕</button>
+  </div>
+
+  <header>
+    <h1>🌱 Começa Aí</h1>
+    <p>Jovem Aprendiz · currículo · entrevista · cursos</p>
+  </header>
+
+  <main>
+    <section id="page-inicio" class="page active">
+      <div class="comeca-ai-cover" aria-label="Capa do aplicativo Começa Aí">
+        <img src="data:image/jpeg;base64,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" alt="Começa Aí — Jovem Aprendiz. Seu futuro começa com o primeiro passo." width="380" height="180" loading="eager">
+      </div>
+      <div class="hero">
+        <div class="emoji">🚀</div>
+        <h2>Bem-vindo(a)!</h2>
+        <p>Encontre <strong>vagas reais</strong> de Jovem Aprendiz, monte um currículo forte, treine entrevistas e faça cursos grátis.</p>
+      </div>
+      <div class="quick-actions">
+        <button class="quick-btn" onclick="goTo('vagas')"><span>🔍</span>Vagas reais</button>
+        <button class="quick-btn" onclick="goTo('curriculo')"><span>📄</span>Currículo</button>
+        <button class="quick-btn" onclick="goTo('entrevista')"><span>🎤</span>Entrevista</button>
+        <button class="quick-btn" onclick="goTo('cursos')"><span>📚</span>Cursos grátis</button>
+      </div>
+      <div class="card" style="margin-top:1.1rem">
+        <h2>Para quem é este app?</h2>
+        <div class="tips">
+          • Jovens de <strong>14 a 24 anos</strong> buscando a primeira oportunidade<br>
+          • Quem quer montar ou melhorar o currículo sem experiência<br>
+          • Quem precisa treinar entrevista e se candidatar com confiança<br>
+          • Quem quer cursos grátis com certificado para valorizar o CV
+        </div>
+      </div>
+      <div class="card">
+        <h2>O que é Jovem Aprendiz?</h2>
+        <p style="font-size:0.85rem;margin-bottom:0.6rem">Programa oficial (Lei 10.097/2000). Você trabalha meio período, estuda e recebe salário + benefícios. <strong>Não precisa de experiência.</strong></p>
+        <div class="tips">
+          <strong>Requisitos básicos:</strong><br>
+          • Idade entre 14 e 24 anos (varia por vaga)<br>
+          • Cursando ou concluído Ensino Médio / Técnico<br>
+          • Disponibilidade de 4h ou 6h por dia
+        </div>
+      </div>
+    </section>
+
+    <section id="page-vagas" class="page">
+      <div class="card">
+        <h2>🔥 Vagas reais em destaque <span class="verified-badge">✓ Oficiais</span></h2>
+        <div class="updated-badge">📅 Atualizado em out/2026 · links diretos das empresas</div>
+        <p style="font-size:0.78rem;color:#64748b;margin-bottom:0.7rem">Cada vaga abaixo leva ao site oficial da empresa (Gupy, Espro, CIEE etc.). Não são anúncios inventados.</p>
+        <div class="alert-info">
+          As vagas abaixo apontam para os sites oficiais das empresas. O processo é <strong>100% gratuito</strong>. Nunca pague para se candidatar.
+        </div>
+        <div class="filter-row" id="jobFilters">
+          <button class="filter-chip active" data-filter="all" onclick="filterJobs('all')">Todas</button>
+          <button class="filter-chip" data-filter="sp" onclick="filterJobs('sp')">São Paulo</button>
+          <button class="filter-chip" data-filter="rj" onclick="filterJobs('rj')">Rio</button>
+          <button class="filter-chip" data-filter="mg" onclick="filterJobs('mg')">Minas</button>
+          <button class="filter-chip" data-filter="outros" onclick="filterJobs('outros')">Outros</button>
+          <button class="filter-chip" data-filter="banco" onclick="filterJobs('banco')">Bancos</button>
+        </div>
+        <div id="jobsList"></div>
+      </div>
+      <div class="card">
+        <h2>🏢 Portais com milhares de vagas</h2>
+        <p style="font-size:0.85rem;margin-bottom:0.85rem">Cadastre-se em vários ao mesmo tempo para aumentar as chances.</p>
+        <ul class="link-list">
+          <li>
+            <a href="https://www.espro.org.br/jovem-aprendiz/" target="_blank" rel="noopener">
+              <span style="font-size:1.3rem">🏢</span>
+              <div>
+                <strong>Espro</strong>
+                <div style="font-size:0.75rem;color:#64748b">+4.500 vagas em 16 estados</div>
+              </div>
+              <span class="badge">Top</span>
+            </a>
+          </li>
+          <li>
+            <a href="https://portal.ciee.org.br/" target="_blank" rel="noopener">
+              <span style="font-size:1.3rem">🎓</span>
+              <div>
+                <strong>CIEE</strong>
+                <div style="font-size:0.75rem;color:#64748b">Maior portal de aprendizagem</div>
+              </div>
+              <span class="badge">Top</span>
+            </a>
+          </li>
+          <li>
+            <a href="https://portal.gupy.io/job-search/term=Jovem%20aprendiz" target="_blank" rel="noopener">
+              <span style="font-size:1.3rem">💼</span>
+              <div>
+                <strong>Gupy</strong>
+                <div style="font-size:0.75rem;color:#64748b">Grandes empresas (bancos, varejo, tech)</div>
+              </div>
+            </a>
+          </li>
+          <li>
+            <a href="https://www.nube.com.br/" target="_blank" rel="noopener">
+              <span style="font-size:1.3rem">📌</span>
+              <div>
+                <strong>Nube</strong>
+                <div style="font-size:0.75rem;color:#64748b">Processos ágeis para jovens</div>
+              </div>
+            </a>
+          </li>
+          <li>
+            <a href="https://www.linkedin.com/jobs/search/?keywords=Jovem%20Aprendiz%20OR%20primeiro%20emprego" target="_blank" rel="noopener">
+              <span style="font-size:1.3rem">🔗</span>
+              <div>
+                <strong>LinkedIn</strong>
+                <div style="font-size:0.75rem;color:#64748b">Jovem Aprendiz e primeiro emprego</div>
+              </div>
+            </a>
+          </li>
+          <li>
+            <a href="https://www.vagas.com.br/" target="_blank" rel="noopener">
+              <span style="font-size:1.3rem">🌐</span>
+              <div>
+                <strong>Vagas.com</strong>
+                <div style="font-size:0.75rem;color:#64748b">Diversos setores</div>
+              </div>
+            </a>
+          </li>
+        </ul>
+      </div>
+      <div class="card">
+        <h2>✅ Dicas para se candidatar</h2>
+        <div class="step"><div class="step-num">1</div><div>Faça cadastro completo (foto, dados, escolaridade)</div></div>
+        <div class="step"><div class="step-num">2</div><div>Informe disponibilidade de horário (manhã/tarde)</div></div>
+        <div class="step"><div class="step-num">3</div><div>Cadastre-se no banco de talentos mesmo sem vaga aberta</div></div>
+        <div class="step"><div class="step-num">4</div><div>Acompanhe e-mail e WhatsApp todos os dias</div></div>
+        <div class="tips">Nunca pague para se candidatar! Processos oficiais são 100% gratuitos.</div>
+      </div>
+    </section>
+
+    <section id="page-curriculo" class="page">
+      <div class="card">
+        <h2>📄 Melhore seu Currículo</h2>
+        <p style="font-size:0.85rem;margin-bottom:0.6rem">Use o gerador abaixo ou siga as dicas — funciona mesmo sem experiência profissional.</p>
+        <div class="tips">
+          <strong>Como deixar o currículo melhor:</strong><br>
+          • Coloque cursos grátis (Excel, atendimento, informática)<br>
+          • Inclua voluntariado, projetos da escola e ajuda em negócio da família<br>
+          • Destaque soft skills: pontualidade, organização, comunicação<br>
+          • Use e-mail profissional e telefone com WhatsApp<br>
+          • Adapte o objetivo para cada vaga
+        </div>
+      </div>
+      <div class="card">
+        <h2>✨ Gerador de Currículo</h2>
+        <p style="font-size:0.85rem;margin-bottom:0.4rem">Preencha e gere um currículo pronto para copiar ou baixar.</p>
+        <label>Nome completo *</label>
+        <input type="text" id="cv-nome" placeholder="Ex: Ana Silva Santos" autocomplete="name">
+        <label>Idade *</label>
+        <input type="number" id="cv-idade" min="14" max="24" placeholder="Ex: 17">
+        <label>Cidade / Estado *</label>
+        <input type="text" id="cv-cidade" placeholder="Ex: São Paulo – SP">
+        <label>Telefone (WhatsApp) *</label>
+        <input type="tel" id="cv-tel" placeholder="(11) 98765-4321" autocomplete="tel">
+        <label>E-mail *</label>
+        <input type="email" id="cv-email" placeholder="ana.silva@email.com" autocomplete="email">
+        <label>Objetivo (ou deixe em branco para usar o padrão)</label>
+        <input type="text" id="cv-objetivo" placeholder="Jovem Aprendiz na área administrativa">
+        <label>Escolaridade *</label>
+        <select id="cv-escolaridade">
+          <option value="Ensino Médio – cursando">Ensino Médio – cursando</option>
+          <option value="Ensino Médio – concluído">Ensino Médio – concluído</option>
+          <option value="Ensino Médio Técnico – cursando">Ensino Médio Técnico – cursando</option>
+          <option value="Ensino Médio Técnico – concluído">Ensino Médio Técnico – concluído</option>
+          <option value="Ensino Fundamental – cursando">Ensino Fundamental – cursando</option>
+        </select>
+        <label>Escola / Instituição</label>
+        <input type="text" id="cv-escola" placeholder="Nome da escola">
+        <label>Ano / Série + previsão de conclusão</label>
+        <input type="text" id="cv-ano" placeholder="Ex: 2º ano – conclusão prevista 2027">
+        <label>Turno de estudo</label>
+        <select id="cv-turno">
+          <option value="Manhã">Manhã</option>
+          <option value="Tarde">Tarde</option>
+          <option value="Noite">Noite</option>
+          <option value="Integral">Integral</option>
+        </select>
+        <label>Cursos (um por linha)</label>
+        <textarea id="cv-cursos" placeholder="Excel Básico – Fundação Bradesco (2025)&#10;Informática – SENAC (2024)&#10;Atendimento ao Cliente – Sebrae"></textarea>
+        <label>Habilidades (separadas por vírgula)</label>
+        <input type="text" id="cv-habilidades" placeholder="Organização, comunicação, trabalho em equipe, pontualidade">
+        <label>Experiências / Atividades (voluntariado, escola, ajuda em negócio familiar...)</label>
+        <textarea id="cv-exp" placeholder="Voluntário em projeto social da escola (2024-2025)&#10;Ajuda no comércio da família – atendimento e caixa"></textarea>
+        <label>Disponibilidade</label>
+        <select id="cv-disp">
+          <option value="Tarde (após o período escolar)">Tarde</option>
+          <option value="Manhã">Manhã</option>
+          <option value="Flexível conforme horário escolar">Flexível</option>
+        </select>
+        <button class="btn" onclick="gerarCurriculo()">✨ Gerar Currículo</button>
+        <button class="btn btn-outline" onclick="limparForm()">Limpar</button>
+      </div>
+      <div id="cv-resultado" class="card hidden">
+        <h2>Seu Currículo</h2>
+        <div class="preview" id="cv-preview"></div>
+        <button class="btn" onclick="copiarCurriculo()">📋 Copiar texto</button>
+        <button class="btn btn-outline" onclick="baixarCurriculo()">⬇️ Baixar .txt</button>
+      </div>
+    </section>
+
+    <section id="page-entrevista" class="page">
+      <div class="card">
+        <h2>🎤 Como se comportar</h2>
+        <div class="tips">
+          <strong>Antes:</strong> Pesquise a empresa, escolha roupa limpa e discreta (camisa/polo + calça), chegue 10–15 min antes, leve documentos.
+        </div>
+        <div class="tips">
+          <strong>Durante:</strong> Cumprimente, olhe nos olhos, fale com clareza, seja sincero, mostre vontade de aprender. Desligue o celular!
+        </div>
+        <div class="tips">
+          <strong>Erros que reprovam:</strong> Atraso, roupa inadequada, falar mal de escola/professores, inventar experiências, responder só “sim/não”.
+        </div>
+      </div>
+      <div class="card">
+        <h2>🤖 Simulador de Entrevista</h2>
+        <p style="font-size:0.85rem;margin-bottom:0.6rem">Responda como se fosse a entrevista real. Depois você recebe um feedback.</p>
+        <div class="progress"><div class="progress-bar" id="sim-progress" style="width:0%"></div></div>
+        <div id="sim-area">
+          <div class="chat" id="sim-chat"></div>
+          <div id="sim-input-area" class="hidden">
+            <textarea id="sim-resposta" placeholder="Digite sua resposta aqui..." rows="3"></textarea>
+            <button class="btn" onclick="enviarResposta()">Enviar resposta</button>
+          </div>
+          <button class="btn" id="btn-iniciar-sim" onclick="iniciarSimulador()">▶️ Começar simulação</button>
+        </div>
+        <div id="sim-final" class="hidden">
+          <div class="feedback good" id="sim-feedback-final"></div>
+          <button class="btn" onclick="reiniciarSimulador()">🔄 Treinar de novo</button>
+        </div>
+      </div>
+      <div class="card">
+        <h2>Perguntas mais comuns</h2>
+        <div class="question-card">
+          <strong>1. Conte-me sobre você</strong>
+          <p style="font-size:0.8rem;margin-top:0.25rem">Fale de escolaridade, interesses e o que te motiva a trabalhar.</p>
+        </div>
+        <div class="question-card">
+          <strong>2. Por que quer ser Jovem Aprendiz?</strong>
+          <p style="font-size:0.8rem;margin-top:0.25rem">Mostre desejo de aprender e contribuir. Evite “só pelo dinheiro”.</p>
+        </div>
+        <div class="question-card">
+          <strong>3. Como você lida com dificuldades?</strong>
+          <p style="font-size:0.8rem;margin-top:0.25rem">Conte um exemplo da escola e como superou.</p>
+        </div>
+        <div class="question-card">
+          <strong>4. Você trabalha bem em equipe?</strong>
+          <p style="font-size:0.8rem;margin-top:0.25rem">Dê exemplo de projeto escolar ou atividade em grupo.</p>
+        </div>
+        <div class="question-card">
+          <strong>5. Por que devemos te contratar?</strong>
+          <p style="font-size:0.8rem;margin-top:0.25rem">Destaque pontualidade, vontade de aprender e responsabilidade.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="page-cursos" class="page">
+      <div class="card">
+        <h2>📚 Cursos gratuitos para turbinar o currículo</h2>
+        <p style="font-size:0.85rem;margin-bottom:0.85rem">Todos com certificado. Coloque no currículo!</p>
+        <div class="course-grid">
+          <div class="course-item">
+            <h4>Fundação Bradesco – Escola Virtual</h4>
+            <p>Excel, Word, PowerPoint, Informática, IA, Administração e mais de 80 cursos.</p>
+            <span class="tag">Certificado</span>
+            <a href="https://www.ev.org.br/" target="_blank" rel="noopener" class="btn btn-sm">Acessar →</a>
+          </div>
+          <div class="course-item">
+            <h4>Sebrae – Cursos Online</h4>
+            <p>Empreendedorismo, atendimento, finanças, marketing digital e gestão.</p>
+            <span class="tag">Certificado</span>
+            <a href="https://loja.sebrae.com.br/cursos/cursos-online" target="_blank" rel="noopener" class="btn btn-sm">Acessar →</a>
+          </div>
+          <div class="course-item">
+            <h4>CIEE Saber Virtual</h4>
+            <p>Dezenas de cursos gratuitos. Parcerias com Google e USP.</p>
+            <span class="tag">Certificado</span>
+            <a href="https://portal.ciee.org.br/quero-me-preparar/saber-virtual/" target="_blank" rel="noopener" class="btn btn-sm">Acessar →</a>
+          </div>
+          <div class="course-item">
+            <h4>SENAI – Futuro.Digital</h4>
+            <p>Logística, finanças pessoais, comunicação, segurança e IA.</p>
+            <span class="tag">Certificado</span>
+            <a href="https://www.futuro.digital/" target="_blank" rel="noopener" class="btn btn-sm">Acessar →</a>
+          </div>
+          <div class="course-item">
+            <h4>Escola Virtual de Governo (EV.G)</h4>
+            <p>Centenas de cursos em gestão e cidadania digital.</p>
+            <span class="tag">Certificado</span>
+            <a href="https://www.escolavirtual.gov.br/" target="_blank" rel="noopener" class="btn btn-sm">Acessar →</a>
+          </div>
+          <div class="course-item">
+            <h4>Google Ateliê Digital</h4>
+            <p>Marketing digital e produtividade (certificado Google).</p>
+            <span class="tag">Certificado</span>
+            <a href="https://learndigital.withgoogle.com/ateliedigital" target="_blank" rel="noopener" class="btn btn-sm">Acessar →</a>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <h2>💡 Quais cursos priorizar?</h2>
+        <div class="step"><div class="step-num">1</div><div><strong>Pacote Office</strong> (Excel + Word)</div></div>
+        <div class="step"><div class="step-num">2</div><div><strong>Atendimento ao Cliente</strong> ou Comunicação</div></div>
+        <div class="step"><div class="step-num">3</div><div><strong>Informática Básica</strong></div></div>
+        <div class="step"><div class="step-num">4</div><div>Depois: Marketing Digital, Logística ou área de interesse</div></div>
+      </div>
+    </section>
+  </main>
+
+  <nav>
+    <button class="active" data-page="inicio" onclick="goTo('inicio')"><span class="icon">🏠</span>Início</button>
+    <button data-page="vagas" onclick="goTo('vagas')"><span class="icon">🔍</span>Vagas</button>
+    <button data-page="curriculo" onclick="goTo('curriculo')"><span class="icon">📄</span>Currículo</button>
+    <button data-page="entrevista" onclick="goTo('entrevista')"><span class="icon">🎤</span>Entrevista</button>
+    <button data-page="cursos" onclick="goTo('cursos')"><span class="icon">📚</span>Cursos</button>
+  </nav>
+
+  <script>
+    const JOBS = [
+      { id:1, title:"Aprendiz Repositor de Mercadorias", company:"Assaí Atacadista", location:"Santo André – SP", region:"sp", tags:["18–22 anos","Ensino médio","Presencial"], salary:"Benefícios + VT + refeição", desc:"Reposição, conferência e organização de gôndolas + atendimento. Processo até nov/2026.", url:"https://assai.gupy.io/jobs/12458784", type:"varejo" },
+      { id:2, title:"Programa Jovem Aprendiz Globo 2026", company:"Globo", location:"RJ · SP · Recife · BH · Brasília", region:"rj", tags:["Até 24 anos","Híbrido/Presencial","SENAC/CIEE"], salary:"Área administrativa", desc:"Teoria + prática em diversas áreas da Globo. Capacitação 12 a 24 meses.", url:"https://globo.gupy.io/jobs/10841123", type:"midia" },
+      { id:3, title:"Jovem Aprendiz – Área Administrativa", company:"Ignición Digital (IGD)", location:"Asa Norte – Brasília/DF", region:"outros", tags:["Ensino médio","4h/dia","Presencial"], salary:"R$ 761,55 + benefícios", desc:"Apoio a eventos, confirmações, e-mail e WhatsApp. Capacitação no CIEE 1x por semana.", url:"https://ignicaodigital.gupy.io/jobs/11124004", type:"admin" },
+      { id:4, title:"Jovem Aprendiz 2026 – Goiânia", company:"Tahto", location:"Goiânia – GO", region:"outros", tags:["18–22 anos","Ensino médio","5x2"], salary:"R$ 1.265 + benefícios", desc:"Primeiro emprego com treinamento remunerado, VA, VT e plano de saúde.", url:"https://tahto.gupy.io/jobs/11056855", type:"admin" },
+      { id:5, title:"Programa Jovem Aprendiz 2026", company:"Cimed (Farmácia)", location:"Pouso Alegre – MG", region:"mg", tags:["17–21 anos","13h30–17h30","12 meses"], salary:"Área industrial/admin", desc:"Processos administrativos e operacionais em uma das maiores farmacêuticas do Brasil.", url:"https://cimed.gupy.io/jobs/11489526", type:"industria" },
+      { id:6, title:"Banco de Talentos – Jovem Aprendiz 2026", company:"Grupo Azzurra", location:"Várias unidades – RJ", region:"rj", tags:["14–22 anos","4h/dia","Presencial"], salary:"R$ 719 + benefícios", desc:"Barra, Botafogo, Tijuca, Campo Grande, Duque de Caxias e mais. TotalPass e refeição.", url:"https://trabalheconosco-grupoazzurra.gupy.io/jobs/10309721", type:"varejo" },
+      { id:7, title:"Acelera Aprendiz – 62 vagas", company:"Banco Mercantil", location:"São Paulo – SP", region:"sp", tags:["16–23 anos","4h ou 6h","Agências"], salary:"Salário + formação teórica", desc:"Início imediato em agências e áreas administrativas. Contrato de até 24 meses.", url:"https://portal.gupy.io/job-search/term=Mercantil%20Aprendiz", type:"banco" },
+      { id:8, title:"Espro – +4.500 vagas abertas", company:"Espro (parceiro de empresas)", location:"16 estados (maioria SP e MG)", region:"sp", tags:["14–23 anos","Admin · Logística · Produção"], salary:"Proporcional ao salário mínimo/hora", desc:"SP (2.975), MG (572), RJ (248), PR (229), SC (173) e outros. Cadastre-se no banco de talentos.", url:"https://www.espro.org.br/jovem-aprendiz/", type:"portal" },
+      { id:9, title:"Jovem Aprendiz – Áreas diversas", company:"CIEE (processos públicos)", location:"Diversas cidades", region:"outros", tags:["18–22 anos","4h ou 6h","Várias áreas"], salary:"R$ 761,55 (4h) ou R$ 1.142 (6h)", desc:"Alimentação, comércio, varejo e mais. Inscrições abertas o ano todo no portal CIEE.", url:"https://portal.ciee.org.br/", type:"portal" },
+      { id:10, title:"Jovem Aprendiz – Varejo e Admin", company:"Gupy (busca consolidada)", location:"Todo o Brasil", region:"outros", tags:["Milhares de vagas","Atualizado diariamente"], salary:"Varia por empresa", desc:"Busca unificada de Jovem Aprendiz em grandes empresas (bancos, varejo, indústria, tech).", url:"https://portal.gupy.io/job-search/term=Jovem%20aprendiz", type:"portal" }
+    ];
+
+    function renderJobs(filter) {
+      filter = filter || 'all';
+      const list = document.getElementById('jobsList');
+      if (!list) return;
+      const filtered = JOBS.filter(function(j) {
+        if (filter === 'all') return true;
+        if (filter === 'banco') return j.type === 'banco' || (j.company || '').toLowerCase().indexOf('banco') >= 0;
+        return j.region === filter;
+      });
+      if (filtered.length === 0) {
+        list.innerHTML = '<p style="font-size:0.85rem;color:#64748b;padding:0.5rem 0">Nenhuma vaga neste filtro. Tente “Todas” ou os portais abaixo.</p>';
+        return;
+      }
+      list.innerHTML = filtered.map(function(j) {
+        return '<article class="job-card">' +
+          '<div class="verified-row"><span class="verified-badge">✓ Vaga oficial</span></div>' +
+          '<div class="job-title">' + j.title + '</div>' +
+          '<div class="job-company">' + j.company + '</div>' +
+          '<div class="job-meta">' +
+            '<span class="highlight">📍 ' + j.location + '</span>' +
+            j.tags.map(function(t){ return '<span>' + t + '</span>'; }).join('') +
+            '<span class="highlight">💰 ' + j.salary + '</span>' +
+          '</div>' +
+          '<p class="job-desc">' + j.desc + '</p>' +
+          '<p class="source-line">Fonte: site oficial da empresa · <a href="' + j.url + '" target="_blank" rel="noopener">abrir anúncio original</a></p>' +
+          '<div class="job-actions"><a href="' + j.url + '" target="_blank" rel="noopener" class="btn btn-sm">Candidatar-se no site oficial →</a></div>' +
+        '</article>';
+      }).join('');
+    }
+
+    function filterJobs(filter) {
+      document.querySelectorAll('#jobFilters .filter-chip').forEach(function(c){ c.classList.remove('active'); });
+      var btn = document.querySelector('#jobFilters .filter-chip[data-filter="' + filter + '"]');
+      if (btn) btn.classList.add('active');
+      renderJobs(filter);
+    }
+
+    function goTo(page) {
+      document.querySelectorAll('.page').forEach(function(p){ p.classList.remove('active'); });
+      var el = document.getElementById('page-' + page);
+      if (el) el.classList.add('active');
+      document.querySelectorAll('nav button').forEach(function(b){ b.classList.remove('active'); });
+      var btn = document.querySelector('nav button[data-page="' + page + '"]');
+      if (btn) btn.classList.add('active');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      if (page === 'vagas') {
+        var active = document.querySelector('#jobFilters .filter-chip.active');
+        renderJobs(active ? active.dataset.filter : 'all');
+      }
+    }
+
+    function gerarCurriculo() {
+      var nome = document.getElementById('cv-nome').value.trim() || 'Seu Nome Completo';
+      var idade = document.getElementById('cv-idade').value.trim() || 'XX';
+      var cidade = document.getElementById('cv-cidade').value.trim() || 'Cidade – UF';
+      var tel = document.getElementById('cv-tel').value.trim() || '(XX) XXXXX-XXXX';
+      var email = document.getElementById('cv-email').value.trim() || 'seu.email@email.com';
+      var objetivo = document.getElementById('cv-objetivo').value.trim();
+      if (!objetivo) objetivo = 'Busco minha primeira oportunidade profissional (Jovem Aprendiz ou área administrativa) para desenvolver habilidades, aprender na prática e contribuir com responsabilidade e dedicação.';
+      var escolaridade = document.getElementById('cv-escolaridade').value;
+      var escola = document.getElementById('cv-escola').value.trim() || 'Nome da Escola';
+      var ano = document.getElementById('cv-ano').value.trim() || 'Ano / previsão de conclusão';
+      var turno = document.getElementById('cv-turno').value;
+      var cursos = document.getElementById('cv-cursos').value.trim() || 'Nenhum curso informado ainda – faça cursos grátis e atualize!';
+      var habilidades = document.getElementById('cv-habilidades').value.trim() || 'Organização, comunicação, trabalho em equipe, pontualidade, facilidade para aprender';
+      var exp = document.getElementById('cv-exp').value.trim() || 'Atividades escolares e projetos de grupo';
+      var disp = document.getElementById('cv-disp').value;
+      var texto = nome.toUpperCase() + '\n' + idade + ' anos | ' + cidade + '\nTelefone: ' + tel + ' | E-mail: ' + email +
+        '\n\nOBJETIVO\n' + objetivo +
+        '\n\nESCOLARIDADE\n' + escolaridade + '\n' + escola + '\n' + ano + ' | Turno: ' + turno +
+        '\n\nCURSOS COMPLEMENTARES\n' + cursos.split('\n').map(function(c){ return '• ' + c.trim(); }).filter(function(c){ return c.length > 2; }).join('\n') +
+        '\n\nHABILIDADES\n' + habilidades.split(',').map(function(h){ return h.trim(); }).filter(Boolean).join(' • ') +
+        '\n\nEXPERIÊNCIAS E ATIVIDADES\n' + exp.split('\n').map(function(e){ return '• ' + e.trim(); }).filter(function(e){ return e.length > 2; }).join('\n') +
+        '\n\nDISPONIBILIDADE\n' + disp +
+        '\n\n---\nCurrículo gerado pelo App Começa Aí – gratuito e sem fins lucrativos.';
+      document.getElementById('cv-preview').textContent = texto;
+      document.getElementById('cv-resultado').classList.remove('hidden');
+      document.getElementById('cv-resultado').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function limparForm() {
+      ['cv-nome','cv-idade','cv-cidade','cv-tel','cv-email','cv-objetivo','cv-escola','cv-ano','cv-cursos','cv-habilidades','cv-exp'].forEach(function(id){
+        document.getElementById(id).value = '';
+      });
+      document.getElementById('cv-resultado').classList.add('hidden');
+    }
+
+    function copiarCurriculo() {
+      var texto = document.getElementById('cv-preview').textContent;
+      navigator.clipboard.writeText(texto).then(function(){ alert('Currículo copiado! Cole no Word, Google Docs ou envie por e-mail/WhatsApp.'); });
+    }
+
+    function baixarCurriculo() {
+      var texto = document.getElementById('cv-preview').textContent;
+      var blob = new Blob([texto], { type: 'text/plain;charset=utf-8' });
+      var url = URL.createObjectURL(blob);
+      var a = document.createElement('a');
+      a.href = url;
+      a.download = 'curriculo-jovem-aprendiz.txt';
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+
+    var perguntas = [
+      { q: 'Olá! Bem-vindo(a) à nossa entrevista para Jovem Aprendiz. Pode se apresentar? Conte um pouco sobre você.', dicas: ['escolaridade','idade','interesse','estudante','escola','aprender','trabalhar'] },
+      { q: 'Por que você quer ser Jovem Aprendiz nesta empresa / nesta área?', dicas: ['aprender','experiência','crescer','contribuir','oportunidade','primeiro','carreira','desenvolver'] },
+      { q: 'Como você lida quando encontra uma dificuldade ou algo que não sabe fazer?', dicas: ['pedir ajuda','pesquisar','tentar','aprender','calma','escola','grupo','superar'] },
+      { q: 'Você se considera uma pessoa que trabalha bem em equipe? Pode dar um exemplo?', dicas: ['equipe','grupo','juntos','ajudar','projeto','escola','trabalho','colaborar'] },
+      { q: 'Por que devemos te escolher para esta vaga?', dicas: ['pontual','responsável','vontade','aprender','disponível','comprometido','organizado','dedicação'] }
+    ];
+    var simIndex = 0;
+    var simRespostas = [];
+
+    function iniciarSimulador() {
+      simIndex = 0;
+      simRespostas = [];
+      document.getElementById('btn-iniciar-sim').classList.add('hidden');
+      document.getElementById('sim-input-area').classList.remove('hidden');
+      document.getElementById('sim-final').classList.add('hidden');
+      document.getElementById('sim-chat').innerHTML = '';
+      atualizarProgresso();
+      adicionarBolha('ai', perguntas[0].q);
+    }
+
+    function adicionarBolha(tipo, texto) {
+      var chat = document.getElementById('sim-chat');
+      var div = document.createElement('div');
+      div.className = 'bubble ' + tipo;
+      div.textContent = texto;
+      chat.appendChild(div);
+      chat.scrollTop = chat.scrollHeight;
+    }
+
+    function atualizarProgresso() {
+      document.getElementById('sim-progress').style.width = (simIndex / perguntas.length * 100) + '%';
+    }
+
+    function enviarResposta() {
+      var resposta = document.getElementById('sim-resposta').value.trim();
+      if (!resposta || resposta.length < 10) {
+        alert('Escreva uma resposta um pouco mais completa (pelo menos 1–2 frases).');
+        return;
+      }
+      adicionarBolha('user', resposta);
+      simRespostas.push({ pergunta: perguntas[simIndex].q, resposta: resposta, dicas: perguntas[simIndex].dicas });
+      document.getElementById('sim-resposta').value = '';
+      simIndex++;
+      atualizarProgresso();
+      if (simIndex < perguntas.length) {
+        setTimeout(function(){ adicionarBolha('ai', perguntas[simIndex].q); }, 600);
+      } else {
+        setTimeout(finalizarSimulacao, 700);
+      }
+    }
+
+    function finalizarSimulacao() {
+      document.getElementById('sim-input-area').classList.add('hidden');
+      document.getElementById('sim-progress').style.width = '100%';
+      var pontos = 0;
+      var feedbacks = [];
+      simRespostas.forEach(function(item, i) {
+        var lower = item.resposta.toLowerCase();
+        var acertos = item.dicas.filter(function(d){ return lower.indexOf(d) >= 0; }).length;
+        if (item.resposta.length > 40) acertos += 1;
+        if (item.resposta.length > 80) acertos += 1;
+        pontos += Math.min(acertos, 4);
+        if (acertos >= 2) feedbacks.push('Pergunta ' + (i+1) + ': Boa resposta! Você usou palavras-chave importantes.');
+        else feedbacks.push('Pergunta ' + (i+1) + ': Tente incluir mais detalhes (ex: exemplos da escola, vontade de aprender).');
+      });
+      var pct = Math.round((pontos / (perguntas.length * 4)) * 100);
+      var msg = '';
+      if (pct >= 70) msg = '🎉 Excelente! Você acertou cerca de ' + pct + '% dos pontos importantes. Continue praticando e você vai arrasar na entrevista real.';
+      else if (pct >= 45) msg = '👍 Bom começo (' + pct + '%). Foque em dar exemplos concretos e mostrar vontade de aprender. Treine de novo!';
+      else msg = '💪 Você conseguiu ' + pct + '%. Não desanime! Use as dicas das perguntas comuns e pratique novamente.';
+      document.getElementById('sim-feedback-final').innerHTML = '<strong>Resultado da simulação</strong><br>' + msg + '<br><br>' + feedbacks.join('<br>');
+      document.getElementById('sim-final').classList.remove('hidden');
+      document.getElementById('sim-final').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function reiniciarSimulador() {
+      document.getElementById('sim-final').classList.add('hidden');
+      document.getElementById('btn-iniciar-sim').classList.remove('hidden');
+      document.getElementById('sim-chat').innerHTML = '';
+      document.getElementById('sim-progress').style.width = '0%';
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      renderJobs('all');
+      var ta = document.getElementById('sim-resposta');
+      if (ta) {
+        ta.addEventListener('keydown', function(e) {
+          if (e.key === 'Enter' && !e.shiftKey) {
+            e.preventDefault();
+            enviarResposta();
+          }
+        });
+      }
+    });
+  </script>
+
+  <script>
+
+    // ========== VERIFICACAO ==========
+    // handler principal: onclick="entrarApp()" no botao
+    (function(){
+      var b=document.getElementById('gateSubmit');
+      if(b && !b.getAttribute('onclick')){
+        b.addEventListener('click', function(){ if(typeof entrarApp==='function') entrarApp(); });
+      }
+    })();
+
+(function() {
+    var deferredInstallPrompt = null;
+    var banner = document.getElementById('installBanner');
+    var installButton = document.getElementById('installBtn');
+    var dismissButton = document.getElementById('installDismiss');
+    var isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+    if (isStandalone && banner) banner.style.display = 'none';
+    window.addEventListener('beforeinstallprompt', function(event) {
+      event.preventDefault();
+      deferredInstallPrompt = event;
+      if (banner) banner.classList.add('visible');
+    });
+    if (installButton) {
+      installButton.addEventListener('click', function() {
+        if (!deferredInstallPrompt) {
+          alert('Para instalar: abra este site no Chrome, toque no menu ⋮ e escolha “Instalar app” ou “Adicionar à tela inicial”. O site precisa estar publicado em HTTPS.');
+          return;
+        }
+        deferredInstallPrompt.prompt();
+        deferredInstallPrompt.userChoice.then(function() {
+          deferredInstallPrompt = null;
+          if (banner) banner.classList.remove('visible');
+        });
+      });
+    }
+    if (dismissButton && banner) {
+      dismissButton.addEventListener('click', function(){ banner.classList.remove('visible'); });
+    }
+    window.addEventListener('appinstalled', function() {
+      if (banner) banner.classList.remove('visible');
+      deferredInstallPrompt = null;
+    });
+    if (false && 'serviceWorker' in navigator) {
+      window.addEventListener('load', function() {
+        //('./sw.js').catch(function(error) {
+          console.warn('Não foi possível registrar o modo offline:', error);
+        });
+      });
+    }
+  })();
+  </script>
+</body>
+</html>
